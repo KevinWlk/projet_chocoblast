@@ -4,6 +4,7 @@ namespace App\Model;
 use App\Utils\BddConnect;
 
 
+
     class Roles extends BddConnect{
         /*----------------------
             Attributs
@@ -13,22 +14,58 @@ use App\Utils\BddConnect;
         /*----------------------
             Constructeur
         ----------------------*/
-        public function __construct($name){
-            $this->nom_roles = $name;
+        public function __construct(){
+
         }
         /*----------------------
             Getters & Setters
         ----------------------*/
-        public function getIdRoles():?int{
-            return $this->id_roles;
+        public function getIdRoles(){
+            $this->id_roles;
         }
-        public function getNomRoles():?string{
-            return $this->nom_roles;
+        public function getNomRoles(){
+            $this->nom_roles;
         }
-        public function setNomRoles($name):void{
-            return $this->nom_roles = $name;
+        public function setNomRoles($name){
+            $this->nom_roles = $name;
         }
             
+        public function addRoles():void {
+            try {
+                //Récupérer les données
+                $nom = $this->nom_roles;
+                //péprarer la requête
+                $req = $this->connexion()->prepare('INSERT INTO role(nom_role) VALUES (?)');
+                //Bind les paramètres
+                $req->bindParam(1, $nom, \PDO::PARAM_STR);
+                //Exécuter la requête
+                $req->execute();
+            }
+            catch(\Exception $e) {
+                die ('Erreur : '.$e->getMessage());
+            }
+        }
+        public function getRolesByName():?array{
+            try{
+                //Récupération du nom
+                $nom = $this->nom_roles;
+                //Preparation de la requête
+                $req = $this->connexion()->prepare('SELECT id_roles, nom_roles
+                FROM roles WHERE nom_roles = ?');
+                //Bind des paramètres
+                $req->bindParam(1, $nom, \PDO::PARAM_STR);
+                //Execution de la requête
+                $req->execute();
+                //Récupération sous forme de tableau d'objet
+                $data = $req->fetchAll(\PDO::FETCH_OBJ);
+                //Retrourne un tableau
+                return $data;
+            }
+            //Gestion des erreurs (Exception)
+            catch (\Exception $e){
+                die('erreur : ' . $e->getMessage());
+            }
+        }
     }
 
 ?>

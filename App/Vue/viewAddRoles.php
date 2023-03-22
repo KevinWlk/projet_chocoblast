@@ -11,18 +11,9 @@
     <h3>Ajouter un compte Utilisateur</h3>
 
     <form action="" method="post">
-        <label for="nom_utilisateur">Saisir votre nom :</label>
-        <input type="text" name = "nom_utilisateur">
-
-        <label for="prenom_utilisateur">Saisir votre prénom :</label>
-        <input type="text" name = "prenom_utilisateur">
+        <label for="nom_roles">Saisir le nom du compte utilisateur :</label>
+        <input type="text" name = "nom_roles">
         
-        <label for="mail_utilisateur">Saisir votre mail :</label>
-        <input type="text" name = "mail_utilisateur">
-
-        <label for="password_utilisateur">Saisir votre Mot de Passe :</label>
-        <input type="password" name = "password_utilisateur">
-
         <input type="submit" value = "Ajouter" name = "submit">
     </form>
     <div id="error"> <?php echo $msg;?> </div>
