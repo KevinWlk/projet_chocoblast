@@ -81,27 +81,30 @@
                 die ('Erruer : '.$e->getMessage());
             }
         }
-    //Méthode pour récupérer un utilisateur avec son mail
-        public function getUserByMail():?array{
-            try{
-                //Récupération du mail
-                $mail = $this->mail_utilisateur;
-                //Preparation de la requête
-                $req = $this->connexion()->prepare('SELECT id_utilisateur, nom_utilisateur, prenome_utilisateur, mail_utilisateur, password_utilisateur, image_utilisateur, statut_utilisateur, id_roles,
-                FROM utilisateur WHERE mail_utilisateur = ?');
-                //Bind des paramètres
-                $req->bindParam(1, $mail, \PDO::PARAM_STR);
-                //Execution de la requête
-                $req->execute();
-                //Récupération sous forme de tableau d'objet
-                $data = $req->fetchAll(\PDO::FETCH_OBJ);
-                //Retrourne un tableau
-                return $data;
-            }
-            //Gestion des erreurs (Exception)
-            catch (\Exception $e){
-                die('erreur : ' . $e->getMessage());
-            }
+    //méthode pour récupérer un utilisateur avec son mail
+    public function getUserByMail():?array{
+        //exécution de la requête
+        try {
+            //récupération du mail
+            $mail = $this->mail_utilisateur;
+            //préparation de la requête
+            $req = $this->connexion()->prepare('SELECT id_utilisateur, nom_utilisateur, prenom_utilisateur
+            mail_utilisateur, password_utilisateur, image_utilisateur, statut_utilisateur, id_roles
+            FROM utilisateur WHERE mail_utilisateur = ?');
+            //bind des paramètres
+            $req->bindParam(1, $mail, \PDO::PARAM_STR);
+            //éxécution de la requête
+            $req->execute();
+            //récupération sous forme de tableau d'objets
+            $data = $req->fetchAll(\PDO::FETCH_OBJ);
+            //retour du tableau
+            return $data;
+        }
+        //gestion des erreurs (Exception)
+        catch (\Exception $e){
+            //affichage de l'erreur
+            die('Erreur : '.$e->getMessage());
+        }
         }
     }
 ?>

@@ -13,30 +13,30 @@
         ----------------------*/
         //Tester si le Bouton est cliqué
             if (isset($_POST['submit'])){
-                $nom = Fonctions::cleanInput($_POST['nom_roles']);
-
+                $nom = Fonctions::cleanInput($_POST['nom_roles']);                
                 //Tester si les champs sont remplis
                 if(!empty($nom)){
-                    //Récupérer le nom du role dans un objet
-                    $this->setNomRoles($nom);
+                $this->setNomRoles($nom);
                     //Tester si le role existe déjà
-                    if($this->addRoles()){
+                    if($this->getRolesByName()){
                         $msg = "Les informations sont incorrectes";
-                    }
-                    
+                    } else {
+                    //Test si le compte existe pas
                     $this->setNomRoles($nom);
-
+                    //ajout du compte à la BDD
                     $this->addRoles();
-                    $msg = "Le role : " . $nom . " a été ajouté à la BDD!";
+                    //Affichage du message
+                    $msg = "Le role : ".$nom." a été ajouté en BDD";
 
-                }
-                //Sinon si les champs ne sont pas tous remplis
-                else {
-                    $msg = "Veuillez remplir le champs du formulaire.";
                 }
             }
-            //importer la vue
-            include './App/Vue/viewAddRoles.php';
+            //sinon si les champs ne sont pas tous remplis
+            else{
+            $msg = "Veuillez remplir le champs du formulaire.";
+            }
         }
+        //importer la vue
+        include './App/Vue/viewAddRoles.php';
     }
+}
 ?>

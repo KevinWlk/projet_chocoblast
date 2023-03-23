@@ -5,12 +5,13 @@ use App\Utils\BddConnect;
 
 
 
+
     class Roles extends BddConnect{
         /*----------------------
             Attributs
         ----------------------*/
-        private $id_roles;
-        private $nom_roles;
+        private ?int $id_roles;
+        private ?string $nom_roles;
         /*----------------------
             Constructeur
         ----------------------*/
@@ -26,7 +27,7 @@ use App\Utils\BddConnect;
         public function getNomRoles(){
             $this->nom_roles;
         }
-        public function setNomRoles($name){
+        public function setNomRoles($name):void{
             $this->nom_roles = $name;
         }
             
@@ -35,7 +36,7 @@ use App\Utils\BddConnect;
                 //Récupérer les données
                 $nom = $this->nom_roles;
                 //péprarer la requête
-                $req = $this->connexion()->prepare('INSERT INTO role(nom_role) VALUES (?)');
+                $req = $this->connexion()->prepare('INSERT INTO roles(nom_roles) VALUES (?)');
                 //Bind les paramètres
                 $req->bindParam(1, $nom, \PDO::PARAM_STR);
                 //Exécuter la requête
