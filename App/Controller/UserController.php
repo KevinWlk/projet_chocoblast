@@ -25,6 +25,8 @@
                     $temp = $_FILES['image_utilisateur']['tmp_name'];
                     //Déplacer l'image sur le serveur
                     $fichier = move_uploaded_file($temp, './Public/Image/' . $image . '');
+
+                    
                 } 
                 //Tester si l'image n'existe pas
                 else {
