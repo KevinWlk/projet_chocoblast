@@ -1,72 +1,77 @@
 <?php
-
-namespace App\Model;
-use App\Utils\BddConnect;
-
-
-
-
+    namespace App\Model;
+    use App\Utils\BddConnect;
     class Roles extends BddConnect{
-        /*----------------------
-            Attributs
-        ----------------------*/
-        private ?int $id_roles;
-        private ?string $nom_roles;
-        /*----------------------
-            Constructeur
-        ----------------------*/
+        /*-----------------------
+                Attributs
+        ------------------------*/
+        private $id_roles;
+        private $nom_roles;
+        /*-----------------------
+                Constructeur
+        ------------------------*/
         public function __construct(){
-
         }
-        /*----------------------
-            Getters & Setters
-        ----------------------*/
-        public function getIdRoles(){
-            $this->id_roles;
+        /*-----------------------
+            Getter et Setters
+        ------------------------*/
+        public function getIdRoles():?int{
+            return $this->id_roles;
         }
-        public function getNomRoles(){
-            $this->nom_roles;
+        public function getNomRoles():?string{
+            return $this->nom_roles;
+        }
+        public function setIdRoles($id):void{
+            $this->id_roles = $id;
         }
         public function setNomRoles($name):void{
             $this->nom_roles = $name;
         }
-            
-        public function addRoles():void {
+        /*-----------------------
+                Méthodes
+        ------------------------*/
+        //méthode pour ajouter un role en BDD
+        public function addRoles():void{
+            //Gestion de la requête SQL
             try {
-                //Récupérer les données
+                //Récupération des valeurs de l'objet
                 $nom = $this->nom_roles;
-                //péprarer la requête
-                $req = $this->connexion()->prepare('INSERT INTO roles(nom_roles) VALUES (?)');
-                //Bind les paramètres
+                //Préparer la requête
+                $req = $this->connexion()->prepare('INSERT INTO roles(nom_roles)
+                VALUES(?)');
+                //Bind le paramètre
                 $req->bindParam(1, $nom, \PDO::PARAM_STR);
                 //Exécuter la requête
                 $req->execute();
             }
-            catch(\Exception $e) {
-                die ('Erreur : '.$e->getMessage());
+            //Gestion des exceptions
+            catch (\Exception $e) {
+                die('Erreur !: '.$e->getMessage());
             }
         }
+        //méthode pour récupérer un role par son nom
         public function getRolesByName():?array{
             try{
-                //Récupération du nom
+                //Récupération des valeurs de l'objet
                 $nom = $this->nom_roles;
-                //Preparation de la requête
-                $req = $this->connexion()->prepare('SELECT id_roles, nom_roles
-                FROM roles WHERE nom_roles = ?');
-                //Bind des paramètres
+                //Préparation de la requête
+                $req = $this->connexion()->prepare('SELECT id_roles, nom_roles FROM roles
+                WHERE nom_roles = ?');
                 $req->bindParam(1, $nom, \PDO::PARAM_STR);
-                //Execution de la requête
+                //Exécution de la requête
                 $req->execute();
-                //Récupération sous forme de tableau d'objet
+                //Récupération du résultat dans un tableau d'objet
                 $data = $req->fetchAll(\PDO::FETCH_OBJ);
-                //Retrourne un tableau
+                //Retour d'un tableau d'objet ou null
                 return $data;
-            }
-            //Gestion des erreurs (Exception)
-            catch (\Exception $e){
-                die('erreur : ' . $e->getMessage());
+            } 
+            catch(\Exception $e){
+                die('Erreur : '.$e->getMessage());
             }
         }
+        //Méthode toString
+        public function __toString():string{
+            return $this->nom_roles;
+        }
     }
-
 ?>

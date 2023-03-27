@@ -5,20 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./Public/Style/style.css">
     <script src="./Public/Script/script.js" defer></script>
-    <title>Add Roles</title>
+    <title>Connexion</title>
 </head>
 <body>
     <!--import du menu -->
     <?php include './App/Vue/viewMenu.php';?>
-    <section class="formContainer">
     
-        <h3>Ajouter un role :</h3>
+    <section class="formContainer">
+    <h3>Connexion :</h3>
         <form action="" method="post">
-            <label for="nom_roles">Saisir un role :</label>
-            <input type="text" name="nom_roles">
-            <input type="submit" value="Ajouter" name="submit">
+            <label for="mail_utilisateur">Saisir votre mail :</label>
+            <input type="email" name="mail_utilisateur">
+            <label for="password_utilisateur">Saisir votre mot de passe :</label>
+            <input type="password" name="password_utilisateur">
+            <input type="submit" value="Connexion" name="submit">
         </form>
-</section>
+    </section>
     <!-- Modal -->
     <div id="myModal" class="modal">
         <!-- Modal content -->

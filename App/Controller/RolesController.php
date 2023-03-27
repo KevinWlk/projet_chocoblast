@@ -1,42 +1,55 @@
 <?php
     namespace App\Controller;
-    use App\Utils\Fonctions;
     use App\Model\Roles;
-
-    class rolesController extends Roles{
-        //Fonction qui va ggérer l'ajout d'un utilisateur en BDD
-        public function insertRoles(){
-            //Variable pour stocker les messages d'erreurs 
+    use App\Utils\Fonctions;
+    class RolesController extends Roles{
+        //Fonction qui ajoute un role en BDD
+        public function insertRoles():void{
+            //variable pour stocker les messages d'erreurs
             $msg = "";
-        /*----------------------
-            Logique
-        ----------------------*/
-        //Tester si le Bouton est cliqué
-            if (isset($_POST['submit'])){
-                $nom = Fonctions::cleanInput($_POST['nom_roles']);                
-                //Tester si les champs sont remplis
+            //Tester si le formulaire est submit
+            if(isset($_POST['submit'])){
+                //Nettoyer les inputs du formulaire
+                $nom = Fonctions::cleanInput($_POST['nom_roles']);
+                //Tester si le champ de formulaire est rempli
                 if(!empty($nom)){
-                $this->setNomRoles($nom);
-                    //Tester si le role existe déjà
-                    if($this->getRolesByName()){
-                        $msg = "Les informations sont incorrectes";
-                    } else {
-                    //Test si le compte existe pas
+                    //Setter les valeurs à l'objet
                     $this->setNomRoles($nom);
-                    //ajout du compte à la BDD
-                    $this->addRoles();
-                    //Affichage du message
-                    $msg = "Le role : ".$nom." a été ajouté en BDD";
-
+                    //Test si le role existe déja
+                    if($this->getRolesByName()){
+                        $msg = "Le role : ".$nom." existe déja en BDD";
+                        echo '<script>
+                            setTimeout(()=>{
+                                modal.style.display = "block";
+                            }, 500);
+                        </script>';
+                    }
+                    //Test si il n'existe pas 
+                    else{
+                        //Ajouter en BDD le nouveau role
+                        $this->addRoles();
+                        //Afficher la confirmation
+                        $msg = "Le role : ".$nom." à été ajouté en BDD";
+                        echo '<script>
+                            setTimeout(()=>{
+                                modal.style.display = "block";
+                            }, 500);
+                        </script>';
+                    }
+                }
+                //Test si les champs sont vides
+                else{
+                    //afficher l'erreur
+                    $msg = "Veuillez remplir les champs de formulaire";
+                    echo '<script>
+                        setTimeout(()=>{
+                            modal.style.display = "block";
+                        }, 500);
+                    </script>';
                 }
             }
-            //sinon si les champs ne sont pas tous remplis
-            else{
-            $msg = "Veuillez remplir le champs du formulaire.";
-            }
+            //Importer la vue
+            include './App/Vue/viewAddRoles.php';
         }
-        //importer la vue
-        include './App/Vue/viewAddRoles.php';
     }
-}
 ?>
